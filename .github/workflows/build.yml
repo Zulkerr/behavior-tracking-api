@@ -1,0 +1,46 @@
+name: Java CI with Postgres
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: tracking_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Java 17 einrichten
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Mache gradlew ausführbar
+        run: chmod +x ./gradlew
+
+      - name: Projekt bauen und testen
+        run: ./gradlew build
+
+      - name: JAR-Datei als Artefakt speichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: behavior-tracking-jar
+          path: build/libs/behavior-tracking-api-*.jar
