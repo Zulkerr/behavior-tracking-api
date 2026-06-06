@@ -28,7 +28,7 @@ public class EventController {
 
         repository.save(newEvent);
 
-        return "Event für User" + request.userId() + "gespeichert!";
+        return "Event für User: " + request.userId() + " gespeichert! ";
     }
 
     @GetMapping("/{userId}")

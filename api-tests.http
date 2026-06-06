@@ -1,0 +1,28 @@
+### 1. Ein Click-Event
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "userId": "user_123",
+  "eventType": "CLICK",
+  "productId": "sneacker_red_42"
+}
+
+
+
+### 2. Ein Kauf Event
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "userId": "user_123",
+  "eventType": "PURCHASE",
+  "productId": "sneacker_red_42"
+}
+
+
+
+
+
+### 3. ALle Events für diesen User abrufen
+GET http://localhost:8080/events/user_123
